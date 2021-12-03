@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <set>
+#include "memory.h"
 
 int main(){
    /* std::ios_base::sync_with_stdio(false); */
@@ -17,7 +18,9 @@ int main(){
       s.insert(word);
       tot++;
    }
-   std::cout << "Total words:    " << tot << std::endl;
-   std::cout << "Distinct words: " << s.size() << std::endl;
-}
 
+   std::cout << "Total words:    " << tot << "\n";
+   std::cout << "Distinct words: " << s.size() << "\n\n";
+
+   getMemoryUsage();
+}
