@@ -1,14 +1,16 @@
 CC = g++
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -O2
+MEMORY = src/memory
+BENCHMARKS = src/benchmarks
 
 .PHONY: all
 all: benchmark
 
-benchmark: benchmark.o memory.o
-	$(CC) $(CFLAGS) -o benchmark benchmark.o memory.o
+benchmark: $(BENCHMARKS)/benchmark.o $(MEMORY)/memory.o
+	$(CC) $(CFLAGS) -o benchmark $(BENCHMARKS)/benchmark.o $(MEMORY)/memory.o
 
-memory.o: memory.h
+memory.o: $(MEMORY)/memory.h
 
 .PHONY: clean
 clean: 
-	$(RM) benchmark *.o
+	$(RM) benchmark $(BENCHMARKS)/*.o $(MEMORY)/*.o

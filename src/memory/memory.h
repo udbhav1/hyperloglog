@@ -4,4 +4,3 @@
 void getMemoryUsage();
 
 #endif
-

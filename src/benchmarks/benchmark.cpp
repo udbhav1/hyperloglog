@@ -2,14 +2,12 @@
 #include <fstream>
 #include <string>
 #include <set>
-#include "memory.h"
+#include "../memory/memory.h"
 
 int main(){
-   /* std::ios_base::sync_with_stdio(false); */
-   /* std::cin.tie(NULL); */
-
    // TODO fstream slow??
-   std::ifstream fin("data/cleaned-shakespeare.txt");
+   // path relative to final executable in project root
+   std::ifstream fin("./data/cleaned-shakespeare.txt");
 
    std::set<std::string> s;
    std::string word;
