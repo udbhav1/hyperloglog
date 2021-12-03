@@ -1,16 +1,22 @@
 CC = g++
 CFLAGS = -Wall -g -O2
-MEMORY = src/memory
-BENCHMARKS = src/benchmarks
+LIBS = src/lib
+BENCHMARK = src/benchmark
+TEST = src/test
 
 .PHONY: all
-all: benchmark
+all: benchmark hlltest
 
-benchmark: $(BENCHMARKS)/benchmark.o $(MEMORY)/memory.o
-	$(CC) $(CFLAGS) -o benchmark $(BENCHMARKS)/benchmark.o $(MEMORY)/memory.o
+hlltest: $(TEST)/hlltest.o $(LIBS)/hyperloglog.o $(LIBS)/memory.o
+	$(CC) $(CFLAGS) -o hlltest $(TEST)/hlltest.o $(LIBS)/hyperloglog.o $(LIBS)/memory.o
+
+benchmark: $(BENCHMARK)/benchmark.o $(LIBS)/memory.o
+	$(CC) $(CFLAGS) -o benchmark $(BENCHMARK)/benchmark.o $(LIBS)/memory.o
+
+hyperloglog.o: $(LIBS)/hyperloglog.h
 
 memory.o: $(MEMORY)/memory.h
 
 .PHONY: clean
 clean: 
-	$(RM) benchmark $(BENCHMARKS)/*.o $(MEMORY)/*.o
+	$(RM) benchmark hlltest $(LIBS)/*.o $(BENCHMARK)/*.o $(TEST)/*.o
