@@ -7,7 +7,7 @@ int main(){
    std::ifstream fin("./data/cleaned-shakespeare.txt");
 
    Hyperloglog hll(4);
-   std::cout << "created HLL with bit width " << (int) hll.getBitWidth() << " and register size " << hll.getRegisterSize() << "\n\n";
-   getMemoryUsage();
-}
+   std::cout << "created HLL with bit width " << static_cast<int>(hll.getBitWidth()) << " and register size " << hll.getRegisterSize() << "\n\n";
 
+   showMemoryUsage(std::cout);
+}

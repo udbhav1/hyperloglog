@@ -20,5 +20,5 @@ int main(){
    std::cout << "Total words:    " << tot << "\n";
    std::cout << "Distinct words: " << s.size() << "\n\n";
 
-   getMemoryUsage();
+   showMemoryUsage(std::cout);
 }

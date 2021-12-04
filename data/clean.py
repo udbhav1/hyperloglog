@@ -1,6 +1,6 @@
 import string
 
-with open("data/shakespeare.txt") as f:
+with open("shakespeare.txt") as f:
     cleaned = []
     for line in f:
         line = line.strip()
@@ -13,6 +13,6 @@ with open("data/shakespeare.txt") as f:
                 if w:
                     # lowercase for accuracy
                     cleaned.append(w.lower())
-    out = open("data/cleaned-shakespeare.txt", "w")
+    out = open("cleaned-shakespeare.txt", "w")
     out.write(" ".join(cleaned))
     out.close()

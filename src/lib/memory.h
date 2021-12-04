@@ -1,6 +1,8 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-void getMemoryUsage();
+#include <iostream>
+
+void showMemoryUsage(std::ostream &ss);
 
 #endif
