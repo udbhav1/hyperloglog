@@ -6,6 +6,8 @@
 #include <string>
 #include <sstream>
 
+#define SEED 110
+
 class Hyperloglog {
     private:
         uint8_t b_; // first b bits used to determine register

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "hyperloglog.h"
+#include "xxhash32.h"
 
 Hyperloglog::Hyperloglog(uint8_t bw) throw (std::invalid_argument){
    if(bw < 4 or bw > 30){
@@ -43,6 +44,13 @@ uint32_t Hyperloglog::getRegisterSize() const {
 
 double Hyperloglog::getAlpha() const {
    return alpham_;
+}
+
+// this xxhash implementation is little-endian only
+void Hyperloglog::add(const std::string &s){
+   /* uint32_t res = XXHash32::hash(s.c_str(), s.length(), SEED); */
+   uint32_t res = XXHash32::hash(&s[0], s.length(), SEED);
+   std::cout << s << " " << res << std::endl;
 }
 
 void Hyperloglog::merge(const Hyperloglog &hll) throw (std::invalid_argument){

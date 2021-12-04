@@ -9,5 +9,11 @@ int main(){
    Hyperloglog hll(4);
    std::cout << "created HLL with bit width " << static_cast<int>(hll.getBitWidth()) << " and register size " << hll.getRegisterSize() << "\n\n";
 
+   std::string s;
+   for(int i = 0; i < 100; i++){
+      fin >> s;
+      hll.add(s);
+   }
+
    showMemoryUsage(std::cout);
 }
