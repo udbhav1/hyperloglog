@@ -1,4 +1,5 @@
 #include <iostream>
+#include <bitset>
 #include "hyperloglog.h"
 #include "xxhash32.h"
 
@@ -46,11 +47,19 @@ double Hyperloglog::getAlpha() const {
    return alpham_;
 }
 
+uint8_t leadingZeros(uint32_t w, uint8_t b){
+   if(!w){
+      return 32 - b;
+   }
+   return __builtin_clz(w);
+}
+
 // this xxhash implementation is little-endian only
 void Hyperloglog::add(const std::string &s){
-   /* uint32_t res = XXHash32::hash(s.c_str(), s.length(), SEED); */
    uint32_t res = XXHash32::hash(&s[0], s.length(), SEED);
-   std::cout << s << " " << res << std::endl;
+   uint32_t addr = res >> (32 - b_); // get first b bits
+   uint8_t pw = leadingZeros(res << b_, b_) + 1; // leftmost 1 of remaining bits
+   M_[addr] = std::max(M_[addr], pw);
 }
 
 void Hyperloglog::merge(const Hyperloglog &hll) throw (std::invalid_argument){

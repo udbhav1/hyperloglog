@@ -14,6 +14,9 @@ int main(){
       fin >> s;
       hll.add(s);
    }
+   /* while(fin >> s){ */
+   /*    hll.add(s); */
+   /* } */
 
    showMemoryUsage(std::cout);
 }
