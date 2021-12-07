@@ -51,6 +51,10 @@ double Hyperloglog::getAlpha() const {
    return alpham_;
 }
 
+double Hyperloglog::getStandardError() const {
+   return 1.04/sqrt(m_);
+}
+
 uint8_t Hyperloglog::leadingZeros(const uint32_t w, const uint8_t b) const {
    if(!w){
       return 32 - b;

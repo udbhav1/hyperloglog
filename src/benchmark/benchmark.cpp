@@ -24,6 +24,4 @@ int main(){
 
    long long b2 = bytesUsed();
    std::cout << "Memory used: " << b2 - b1 << " bytes\n";
-
-   /* showMemoryUsage(std::cout); */
 }

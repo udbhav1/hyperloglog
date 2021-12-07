@@ -24,6 +24,7 @@ class Hyperloglog {
         uint32_t getRegisterSize() const;
         std::vector<uint8_t> getRegisters() const;
         double getAlpha() const;
+        double getStandardError() const;
 
         void add(const std::string &s);
         void add(const void *item, const size_t sz);
