@@ -8,7 +8,7 @@ int main(){
 
    long long b1 = bytesUsed();
 
-   Hyperloglog hll(11);
+   Hyperloglog hll(8);
 
    std::string s;
    long long tot = 0;

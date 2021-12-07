@@ -4,17 +4,17 @@ LIBS = src/lib
 BENCHMARK = src/benchmark
 
 .PHONY: all
-all: benchmark hlltest
+all: hlltest naive
 
 hlltest: $(BENCHMARK)/hlltest.o $(LIBS)/hyperloglog.o $(LIBS)/memory.o
 	$(CC) $(CFLAGS) -o hlltest $(BENCHMARK)/hlltest.o $(LIBS)/hyperloglog.o $(LIBS)/memory.o
 
 hlltest.o: $(BENCHMARK)/hlltest.cpp
 
-benchmark: $(BENCHMARK)/benchmark.o $(LIBS)/memory.o
-	$(CC) $(CFLAGS) -o benchmark $(BENCHMARK)/benchmark.o $(LIBS)/memory.o
+naive: $(BENCHMARK)/naive.o $(LIBS)/memory.o
+	$(CC) $(CFLAGS) -o naive $(BENCHMARK)/naive.o $(LIBS)/memory.o
 
-benchmark.o: $(BENCHMARK)/benchmark.cpp
+naive.o: $(BENCHMARK)/naive.cpp
 
 hyperloglog.o: $(LIBS)/hyperloglog.h $(LIBS)/xxhash32.h
 
@@ -22,4 +22,4 @@ memory.o: $(MEMORY)/memory.h
 
 .PHONY: clean
 clean: 
-	$(RM) -f benchmark hlltest $(LIBS)/*.o $(BENCHMARK)/*.o
+	$(RM) -f naive hlltest $(LIBS)/*.o $(BENCHMARK)/*.o

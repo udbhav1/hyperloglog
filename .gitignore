@@ -1,7 +1,6 @@
 todo.txt
 temp
-benchmark
-!benchmark/
+naive
 hlltest
 
 # Compiled source #
