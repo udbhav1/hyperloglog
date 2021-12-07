@@ -1,8 +1,6 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include <sstream>
-
 #ifdef __linux__
 
 #include <sys/resource.h>

@@ -3,7 +3,7 @@
 #include "hyperloglog.h"
 #include "xxhash32.h"
 
-Hyperloglog::Hyperloglog(uint8_t bw) throw (std::invalid_argument){
+Hyperloglog::Hyperloglog(const uint8_t bw) throw (std::invalid_argument){
    if(bw < 4 or bw > 30){
       std::ostringstream ss;
       ss << "bit width " << static_cast<int>(bw) << " out of range [4, 30]";
@@ -51,7 +51,7 @@ double Hyperloglog::getAlpha() const {
    return alpham_;
 }
 
-uint8_t Hyperloglog::leadingZeros(uint32_t w, uint8_t b) const {
+uint8_t Hyperloglog::leadingZeros(const uint32_t w, const uint8_t b) const {
    if(!w){
       return 32 - b;
    }
@@ -59,8 +59,12 @@ uint8_t Hyperloglog::leadingZeros(uint32_t w, uint8_t b) const {
 }
 
 void Hyperloglog::add(const std::string &s){
+   add(&s[0], s.length());
+}
+
+void Hyperloglog::add(const void *item, const size_t sz){
    // this xxhash implementation is little-endian only
-   uint32_t res = XXHash32::hash(&s[0], s.length(), SEED);
+   uint32_t res = XXHash32::hash(item, sz, SEED);
    uint32_t addr = res >> (32 - b_); // first b bits
    uint8_t pw = leadingZeros(res << b_, b_) + 1; // leftmost 1 of remaining bits
    M_[addr] = std::max(M_[addr], pw);

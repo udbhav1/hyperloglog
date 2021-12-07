@@ -7,7 +7,7 @@ BENCHMARK = src/benchmark
 all: benchmark hlltest
 
 hlltest: $(BENCHMARK)/hlltest.o $(LIBS)/hyperloglog.o $(LIBS)/memory.o
-	$(CC) $(CFLAGS) -o hlltest $(TEST)/hlltest.o $(LIBS)/hyperloglog.o $(LIBS)/memory.o
+	$(CC) $(CFLAGS) -o hlltest $(BENCHMARK)/hlltest.o $(LIBS)/hyperloglog.o $(LIBS)/memory.o
 
 hlltest.o: $(BENCHMARK)/hlltest.cpp
 

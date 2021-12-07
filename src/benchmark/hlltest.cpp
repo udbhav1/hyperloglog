@@ -13,6 +13,7 @@ int main(){
    std::string s;
    long long tot = 0;
    while(fin >> s){
+      /* hll.add(&s[0], s.length()); */
       hll.add(s);
       tot++;
    }
