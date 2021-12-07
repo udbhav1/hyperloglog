@@ -1,5 +1,5 @@
 #include <iostream>
-#include <bitset>
+#include <cmath>
 #include "hyperloglog.h"
 #include "xxhash32.h"
 
@@ -43,11 +43,15 @@ uint32_t Hyperloglog::getRegisterSize() const {
    return m_;
 }
 
+std::vector<uint8_t> Hyperloglog::getRegisters() const {
+   return M_;
+}
+
 double Hyperloglog::getAlpha() const {
    return alpham_;
 }
 
-uint8_t leadingZeros(uint32_t w, uint8_t b){
+uint8_t Hyperloglog::leadingZeros(uint32_t w, uint8_t b) const {
    if(!w){
       return 32 - b;
    }
@@ -57,9 +61,39 @@ uint8_t leadingZeros(uint32_t w, uint8_t b){
 // this xxhash implementation is little-endian only
 void Hyperloglog::add(const std::string &s){
    uint32_t res = XXHash32::hash(&s[0], s.length(), SEED);
-   uint32_t addr = res >> (32 - b_); // get first b bits
+   uint32_t addr = res >> (32 - b_); // first b bits
    uint8_t pw = leadingZeros(res << b_, b_) + 1; // leftmost 1 of remaining bits
    M_[addr] = std::max(M_[addr], pw);
+}
+
+double Hyperloglog::cardinality() const {
+   double Z = 0;
+   for(uint32_t i = 0; i < m_; i++){
+      Z += (1.0 / (1 << M_[i]));
+   }
+
+   Z = 1.0 / Z;
+   double E = alpham_ * m_ * m_ * Z;
+
+   if(E < (2.5*m_)){
+      // switch to linear counting
+      std::cout << "below 5/2 m" << std::endl;
+      double V = 0;
+      for(uint32_t i = 0; i < m_; i++){
+         if(!M_[i]){
+            V++;
+         }
+      }
+      if(V > 0){
+         return m_ * std::log(m_/V);
+      }
+   }
+   else if(E > (4294967296.0/30.0)){
+      // near upper bound of 32-bit registers
+     return -4294967296.0 * std::log(1.0 - (E/4294967296.0)); 
+   }
+
+   return E;
 }
 
 void Hyperloglog::merge(const Hyperloglog &hll) throw (std::invalid_argument){
@@ -68,7 +102,7 @@ void Hyperloglog::merge(const Hyperloglog &hll) throw (std::invalid_argument){
       ss << "Cannot merge HLL of " << static_cast<int>(m_) << " registers with HLL of " << static_cast<int>(hll.m_) << " registers";
       throw std::invalid_argument(ss.str());
    }
-   for(int i = 0; i < m_; i++){
+   for(uint32_t i = 0; i < m_; i++){
       M_[i] = std::max(M_[i], hll.M_[i]);
    }
 }

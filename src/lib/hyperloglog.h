@@ -14,12 +14,15 @@ class Hyperloglog {
         uint32_t m_; // number of registers = 2^b
         std::vector<uint8_t> M_; // registers
         double alpham_; // constant to remedy hash collisions
+
+        uint8_t leadingZeros(uint32_t w, uint8_t b) const;
     public:
         Hyperloglog(uint8_t bw) throw (std::invalid_argument);
         Hyperloglog(const Hyperloglog &hll);
 
         uint8_t getBitWidth() const;
         uint32_t getRegisterSize() const;
+        std::vector<uint8_t> getRegisters() const;
         double getAlpha() const;
 
         void add(const std::string &s);
