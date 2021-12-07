@@ -58,8 +58,8 @@ uint8_t Hyperloglog::leadingZeros(uint32_t w, uint8_t b) const {
    return __builtin_clz(w);
 }
 
-// this xxhash implementation is little-endian only
 void Hyperloglog::add(const std::string &s){
+   // this xxhash implementation is little-endian only
    uint32_t res = XXHash32::hash(&s[0], s.length(), SEED);
    uint32_t addr = res >> (32 - b_); // first b bits
    uint8_t pw = leadingZeros(res << b_, b_) + 1; // leftmost 1 of remaining bits

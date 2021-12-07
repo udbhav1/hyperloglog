@@ -1,8 +1,18 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include <iostream>
+#include <sstream>
 
-void showMemoryUsage(std::ostream &ss);
+#ifdef __linux__
+
+#include <sys/resource.h>
+
+#elif __APPLE__
+
+#include <mach/mach.h>
+
+#endif
+
+long long bytesUsed();
 
 #endif

@@ -1,29 +1,25 @@
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <set>
 #include "../lib/memory.h"
+#include "../lib/hyperloglog.h"
 
 int main(){
-   // TODO fstream slow??
-   // path relative to final executable in project root
    std::ifstream fin("./data/cleaned-shakespeare.txt");
 
    long long b1 = bytesUsed();
 
-   std::set<std::string> s;
-   std::string word;
+   Hyperloglog hll(8);
+
+   std::string s;
    long long tot = 0;
-   while(fin >> word){
-      s.insert(word);
+   while(fin >> s){
+      hll.add(s);
       tot++;
    }
 
    std::cout << "Total words:    " << tot << "\n";
-   std::cout << "Distinct words: " << s.size() << "\n\n";
+   std::cout << "Distinct words: " << hll.cardinality() << "\n\n";
 
    long long b2 = bytesUsed();
    std::cout << "Memory used: " << b2 - b1 << " bytes\n";
-
-   /* showMemoryUsage(std::cout); */
 }
